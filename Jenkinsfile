@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage("get the code from github") {
       steps {
-        git clone 
+        git clone https://github.com/atchaikovski/P8.git
       }
     }
     stage("build a nginx docker image") {
@@ -13,10 +13,10 @@ pipeline {
         """
       }
     }
-    stage("get the code from github") {
+    stage("start the docker container") {
       steps {
           sh """
-            git clone 
+            docker run -p 9889:80 --name nginx-project8 -d nginx-p8
           """
       } 
    }
