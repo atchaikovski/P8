@@ -5,11 +5,15 @@ pipeline {
     }
     stages {
          stage('Dangling Containers') {
-             sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+            steps {
+                 sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+            }
          }
 
          stage('Dangling Images') {
-             sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+            steps {
+                  sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+            }
          }
 
         stage('clone source') {
