@@ -39,10 +39,10 @@ pipeline {
     }
   post {
       failure {
-         slackSend channel: 'pet-projects', message: 'Failure of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
+         slackSend channel: 'pet-projects', message: 'Failure of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'slack_token'
       }
       success {
-         slackSend channel: 'pet-projects', message: 'Success of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
+         slackSend channel: 'pet-projects', message: 'Success of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'slack_token'
       }
   }
 }
