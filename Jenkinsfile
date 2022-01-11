@@ -4,12 +4,14 @@ pipeline {
         git 'Default'
     }
     stages {
-        stage('cleaning up before build') {
-            steps {
-               sh 'docker stop $(docker ps -q)'
-               sh 'docker rm $(docker ps -a -q )'
-            }
-        } 
+         stage('Dangling Containers') {
+             sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+         }
+
+         stage('Dangling Images') {
+             sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+         }
+
         stage('clone source') {
             steps {
                 git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
