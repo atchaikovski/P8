@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('cleaning up before build') {
             steps {
-               sh 'docker sop $(docker ps -q)'
+               sh 'docker stop $(docker ps -q)'
                sh 'docker rm $(docker ps -a -q )'
                sh 'docker rmi $(docker images -q -f dangling=true)'
             }
