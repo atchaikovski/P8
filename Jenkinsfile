@@ -4,26 +4,30 @@ pipeline {
         git 'Default'
     }
     stages {
-        stage('Running containers') {
+        stage('Stop running containers') {
             steps {
                 sh 'docker ps -q -f status=running | xargs --no-run-if-empty docker stop'
             }
         }
-        stage('Dangling Containers') {
+        stage('Remove dangling Containers') {
             steps {
                 sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
             }
         }
-
-        stage('Dangling Images') {
+        stage('Delete dangling Images') {
             steps {
                 sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
             }
         }
-
         stage('clone source') {
             steps {
                 git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
+            }
+        } 
+        stage('Get md5 sum for index.html') {
+            steps {
+                sh 'md5sum ./index.html | aws \'{print $1}\' >>md5sum.txt'
+                sh 'cat md5sum.txt >>index.html'
             }
         } 
         stage('Build') {
