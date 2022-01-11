@@ -4,6 +4,11 @@ pipeline {
         git 'Default'
     }
     stages {
+        stage('Running containers') {
+            steps {
+                sh 'docker ps -q -f status=running | xargs --no-run-if-empty docker stop'
+            }
+        }
         stage('Dangling Containers') {
             steps {
                 sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
@@ -33,6 +38,9 @@ pipeline {
         }
     }
   post {
+      failure {
+         slackSend channel: 'pet-projects', message: 'Failure of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
+      }
       success {
          slackSend channel: 'pet-projects', message: 'Success of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
       }
