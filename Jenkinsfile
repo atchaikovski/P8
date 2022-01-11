@@ -4,17 +4,17 @@ pipeline {
         git 'Default'
     }
     stages {
-         stage('Dangling Containers') {
+        stage('Dangling Containers') {
             steps {
-                 sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+                sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
             }
-         }
+        }
 
-         stage('Dangling Images') {
+        stage('Dangling Images') {
             steps {
-                  sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+                sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
             }
-         }
+        }
 
         stage('clone source') {
             steps {
@@ -31,10 +31,10 @@ pipeline {
                 sh 'docker run -p 9889:80 -d --name nginx-project8 nginx-p8'
             }
         }
-        stage('Slack') {
-            steps {
-              slackSend channel: 'pet-projects', message: 'Success of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
-            }  
-        }      
     }
+  post {
+      success {
+         slackSend channel: 'pet-projects', message: 'Success of docker build and run', teamDomain: 'alexsworkspac-nf14913', tokenCredentialId: 'new_slack_token'
+      }
+  }
 }
