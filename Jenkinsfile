@@ -1,7 +1,16 @@
 pipeline {
     agent { label 'docker' }
-
+    tools {
+        git 'Default'
+    }
     stages {
+        stage('cleaning up before build') {
+            steps {
+               sh 'docker sop $(docker ps -q)'
+               sh 'docker rm $(docker ps -a -q )'
+               sh 'docker rmi $(docker images -q -f dangling=true)'
+            }
+        } 
         stage('clone source') {
             steps {
                 git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
