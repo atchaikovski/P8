@@ -26,7 +26,7 @@ pipeline {
         } 
         stage('Get md5 sum for index.html') {
             steps {
-                sh 'md5sum ./index.html | aws \'{print $1}\' >>md5sum.txt'
+                sh 'md5sum ./index.html | awk \'{print $1}\' >>md5sum.txt'
                 sh 'cat md5sum.txt >>index.html'
             }
         } 
