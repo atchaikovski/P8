@@ -34,11 +34,7 @@ pipeline {
         } 
         stage('Build') {
             steps {
-                dockerfile {
-                    filename 'Dockerfile'
-                    dir '.'
-                    label 'nginx-p8'
-                } 
+                sh 'docker build -t nginx-p8 .' 
             }
         }
         stage('run nginx container') {
