@@ -34,7 +34,11 @@ pipeline {
         } 
         stage('Build') {
             steps {
-                sh 'docker build -t nginx-p8 .'
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir '.'
+                    label 'nginx-p8'
+                } 
             }
         }
         stage('run nginx container') {
@@ -46,7 +50,9 @@ pipeline {
             steps {
                 sh '''
                    r=`curl -i -v localhost:9889/alive | grep "alive"`
-                   echo $r
+                   if [ $r = '' ]; then
+                     echo 'something wrong, error!'
+                   fi
                    '''
             }
         }
