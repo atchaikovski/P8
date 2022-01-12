@@ -44,7 +44,10 @@ pipeline {
         }
         stage('liveness probe') {
             steps {
-                sh 'curl -i -v localhost:9889/alive'
+                sh '''
+                   r=`curl -i -v localhost:9889/alive | grep "alive"`
+                   echo $r
+                   '''
             }
         }
     }
