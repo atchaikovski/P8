@@ -6,33 +6,25 @@ pipeline {
     }
 
     stages {
-        stage('Stop running containers') {
+        stage('cleanup docker env') {
             steps {
                 sh 'docker ps -q -f status=running | xargs --no-run-if-empty docker stop'
-            }
-        }
-        stage('Remove dangling Containers') {
-            steps {
                 sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+                sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'            
             }
         }
-        stage('Delete dangling Images') {
-            steps {
-                sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
-            }
-        }
-        stage('clone source') {
+        stage('Get source from Github') {
             steps {
                 git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
             }
         } 
-        stage('Get md5 sum') {
+        stage('Calc md5 sum') {
             steps {
                 sh 'md5sum ./index.html | awk \'{print $1}\' >md5sum.txt'
                 sh 'cat md5sum.txt >>index.html'
             }
         } 
-        stage('Build') {
+        stage('Build container') {
             steps {
                 sh 'docker build -t nginx-p8 .' 
             }
