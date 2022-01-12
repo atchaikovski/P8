@@ -45,7 +45,7 @@ pipeline {
         stage('liveness probe') {
             steps {
                 sh '''
-                   r=`curl -i -v localhost:9889/alive | grep "alive"`
+                   r=`curl -s localhost:9889/alive | grep "alive"`
                    if [ $r = '' ]; then
                      echo 'something wrong, error!'
                    fi
