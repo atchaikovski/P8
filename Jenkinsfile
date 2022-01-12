@@ -1,5 +1,5 @@
 node {
-    
+  label 'docker'  
   stage 'Building image'
   git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
 
