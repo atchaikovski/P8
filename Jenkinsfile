@@ -47,7 +47,9 @@ pipeline {
                 sh '''
                    r=`curl -s localhost:9889/alive | grep "alive"`
                    if [ $r = '' ]; then
-                     echo 'something wrong, error!'
+                        echo 'something wrong, error!'
+                     else
+                        echo 'liveness passed ok'
                    fi
                    '''
             }
