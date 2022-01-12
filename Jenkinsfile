@@ -32,7 +32,7 @@ pipeline {
         }
         stage('run nginx container') {
             steps {
-                sh 'docker run -p 9889:80 -d --name nginx-project8 nginx-p8'
+                sh 'docker run --rm -p 9889:80 -d --name nginx-project8 nginx-p8'
             }
         }
         stage('liveness probe') {
