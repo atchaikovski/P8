@@ -1,8 +1,10 @@
 pipeline {
     agent { label 'docker' }
+
     tools {
         git 'Default'
     }
+    
     stages {
         stage('Stop running containers') {
             steps {
