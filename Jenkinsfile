@@ -20,7 +20,8 @@ pipeline {
         } 
         stage('Calc md5 sum') {
             steps {
-                sh 'md5sum ./index.html | awk \'{print $1}\' >>index.html'
+                sh 'md5sum ./index.html | awk \'{print $1}\' >>md5sum'
+                sh 'cat md5sum >>index.html'
             }
         } 
         stage('Build container') {
