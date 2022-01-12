@@ -1,13 +1,9 @@
-pipeline {
-    agent {
-        label "docker" 
-        image 'nginx' 
-    }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'nginx --version'
-            }
-        }
-    }
+node {
+    
+  stage 'Building image'
+  git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
+
+  def newApp = docker.build "nginx-p8:${env.BUILD_ID}"
+  stage 'Test image'
+
 }
