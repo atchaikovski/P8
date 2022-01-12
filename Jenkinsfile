@@ -42,6 +42,11 @@ pipeline {
                 sh 'docker run -p 9889:80 -d --name nginx-project8 nginx-p8'
             }
         }
+        stage('liveness probe') {
+            steps {
+                sh 'curl localhost:9889'
+            }
+        }
     }
   post {
       failure {
