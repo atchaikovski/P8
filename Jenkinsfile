@@ -40,6 +40,18 @@ pipeline {
                    '''
             }
         }
+        stage('check MD5') {
+            steps {
+                sh 'echo md5sum.txt'
+            }
+        }
+        stage('cleanup...') {
+            steps {
+                sh 'docker ps -q -f status=running | xargs --no-run-if-empty docker stop'
+                sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+                sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'            
+            }
+        }
     }
   post {
       failure {
