@@ -5,5 +5,5 @@
 1. docker builds a container with nginx and gets html file from outside
 2. nginx gets avail at port 9889
 3. nginx test should receive code 200
-4. we need to generate md5 sum of the html file, compare it with the sum got from github
+4. ---- need to generate md5 sum of the html file, compare it with the sum got from github
   
