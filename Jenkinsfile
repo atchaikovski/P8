@@ -18,11 +18,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/atchaikovski/P8.git'
             }
         } 
-        stage('Calc md5 sum') {
-            steps {
-                sh 'md5sum ./index.html | awk \'{print $1}\' >>index.html'
-            }
-        } 
         stage('Build container') {
             steps {
                 sh 'docker build -t nginx-p8 .' 
