@@ -40,7 +40,7 @@ pipeline {
                    '''
             }
         }
-        stage('check MD5') {
+        stage('check MD5--- wont work') {
             steps {
                 sh 'echo md5sum.txt'
             }
